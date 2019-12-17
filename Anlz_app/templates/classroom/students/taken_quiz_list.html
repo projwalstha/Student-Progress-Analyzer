@@ -1,0 +1,37 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+  {% include 'classroom/students/_header.html' with active='taken' %}
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Subject</th>
+          <th>Percentage</th>
+          <th>Total marks Attempted</th>
+          <th>Obtained marks</th>
+          <th>Results</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for taken_quiz in taken_quizzes %}
+          <tr>
+            <td>{{ taken_quiz.quiz.name }}</td>
+            <td>{{ taken_quiz.quiz.subject.get_html_badge }}</td>
+            <td>{{ taken_quiz.score }}</td>
+            <td>{{ taken_quiz.total_marks }}</td>
+            <td>{{ taken_quiz.obtained_marks}}</td>
+            <td><a href="{% url 'students:results' pk=taken_quiz.quiz_id %}" class="btn btn-primary mb-3" role="button">Details</a></td>
+              <td><a href="{% url 'students:charts' pk=taken_quiz.quiz_id %}" class="btn btn-primary mb-3" role="button">Graphical Analysis</a></td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="3">You haven't completed any test yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

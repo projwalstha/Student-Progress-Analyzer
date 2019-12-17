@@ -1,0 +1,86 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="main">
+        <!-- forums -->
+        <div class="jumbotron">
+            <h1 class="page-header">Discussion Form<small><h3>Discuss what you want.</h3></small></h1>
+            <h4>Choose a forum of your interest.</h4>
+            {% if user.is_authenticated and user.is_teacher %}
+                <span class="pull-right">
+                    <a href="{% url 'forum:create_forum' %}" class="btn btn-primary start-new-btn"> Create Forum</a>
+                </span>
+            {% endif %}
+        </div>
+        <div class="container row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <table class="table table-striped table-bordered table-hover container">
+                    <thead>
+                        <th><h3 class="text-center">Forum</h3></th>
+                        <th><h3 class="text-center">Topic Threads</h3></th>
+                        <th><h3>Posts</h3></th>
+                        <th><h3 class="text-center">Last Post</h3></th>
+                        <th></th>
+                    </thead>
+                    {% if forums %}
+                        {% for forum in forums %}
+                            <tr>
+                                <td>
+                                    <h4>
+                                        <a href="{% url 'forum:forum' pk=forum.pk %}">{{ forum.title }}</a> <br>
+                                        <small>
+                                            {% if forum.description %}
+                                                <em>{{ forum.description }}</em>
+                                            {% else %}
+                                                <em>No description available.</em>
+                                            {% endif %}
+                                            <br>
+                                            Created: {{ forum.created }} <br>
+                                            By: {{ forum.creator }}
+                                        </small>
+                                    </h4>
+                                </td>
+                                <td class="text-center">{{ forum.num_threads }}</td>
+                                <td class="text-center">{{ forum.num_post }}</td>
+                                <td><small>{{ forum.last_post.short | linebreaks }} {{ forum.last_post.created }}</small></td>
+                                <td class="text-center"><a href="{% url 'forum:forum' pk=forum.pk %}" class="btn btn-link">View</a></td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center"><em>No forums yet...</em></td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% if forums %}
+    <div class="row" style="clear: both">
+        <span class="step-links">
+            <ul class="pager">
+                <div class="col-xs-4">
+                    {% if forums.has_previous %}
+                        <li class="previous">
+                            <a href="?page={{ forums.previous_page_number }}">&larr; Newer</a>
+                        </li>
+                    {% endif %}
+                </div>
+                <div class="col-xs-4">
+                    <li class="active">
+                        <a href="#!">{{ forums.number }} / {{ forums.paginator.num_pages }}</a>
+                    </li>
+                </div>
+                <div class="col-xs-4">
+                    {% if forums.has_next %}
+                        <li class="next">
+                            <a href="?page={{ forums.next_page_number }}">Older &rarr;</a>
+                        </li>
+                    {% endif %}
+                </div>
+            </ul>
+        </span>
+    </div>
+{% endif %}
+{% endblock %}

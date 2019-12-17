@@ -1,0 +1,34 @@
+{% extends "base2.html" %}
+{% load static %}
+
+<h2>Create Forum</h2>
+
+
+{% block content %}
+    <div class="container">
+        <br>
+        <form role="form" method="post" action="{% url 'forum:create_forum' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <legend>Create Forum</legend>
+            </div>
+            <div class="form-group">
+                <label for="id_title">Subject</label>
+                <input class="form-control" id="id_title" name="title" maxlength="60" type="text" placeholder="Title">
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                <textarea class="form-control" maxlength="255" rows="3" id="id_description" name="description" placeholder="A short description of the forum"></textarea>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+        </form>
+
+        <div class="pull-left" style="clear: both">
+            <a href="{% url 'forum:index' %}">&laquo; Back to forums.</a>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container col-md-10 col-md-offset-1">
+        <form role="form" action="{% url 'forum:add_thread' pk=forum.pk %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <legend>Start a topic in {{ forum.title }}</legend>
+            </div>
+            <div class="form-group">
+                <label for="id_title">Topic</label>
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <p>This field is required.</p>
+                    </div>
+                {% endif %}
+                <input type="text" id="id_title" maxlength="60" name="title" class="form-control">
+            </div>
+
+             <div class="form-group">
+                <label for="id_description">Question</label>
+                <textarea class="form-control" maxlength="255" rows="3" id="id_description" name="description" placeholder="A short description of the topic"></textarea>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Create</button>
+            </div>
+        </form>
+        <div class="row" style="clear: both">
+            <div class="pull-left">
+                <a href="{% url 'forum:forum' pk=forum.pk %}">&laquo; Back to forum.</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

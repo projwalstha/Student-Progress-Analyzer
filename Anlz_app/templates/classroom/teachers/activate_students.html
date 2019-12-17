@@ -1,0 +1,33 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+
+  <h2 class="mb-3">Activate students</h2> <p>Click on any username to activate the student.</p>
+
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Newly Registered Students</th>
+
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for users in User.all %}
+        {% if users.is_student %}
+        {% if not users.is_active %}
+          <tr>
+            <td class="align-middle"><a href="{% url 'teachers:approve' pk=users.pk %}">{{users.username}}</a></td>
+          {% endif %}
+          {% endif %}
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="5">No users</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

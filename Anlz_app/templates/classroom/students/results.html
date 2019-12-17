@@ -1,0 +1,55 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<h2>Results</h2>
+<p class="text-muted">
+  Subjects:{% for subject in user.student.interests.all %} {{ subject.get_html_badge }}{% endfor %}
+  <a href="{% url 'students:student_interests' %}"><small>(update interests)</small></a>
+</p>
+  <p><strong>Name:</strong> {{fname}}  {{lname}}</p>
+  <p><strong>Username:</strong> {{username}}</p>
+  <p><strong>Test Taken:</strong> {{quiz}}</p>
+  <p><strong>Total Questions:</strong> {{total_ques}}</p>
+      <div class="card">
+
+        <div class="card-header">
+
+            <div class="row">
+            <div class="col-6">
+              <strong>Attempted Questions</strong>
+            </div>
+            <div class="col-4">
+              <strong>Your answers</strong>
+            </div>
+            <div class="col-2">
+              <strong>Marks</strong>
+            </div>
+          </div>
+        </div>
+        <div class="list-group list-group-flush list-group-formset">
+          {% for question,lev,answers,marks in zippedList %}
+            <div class="list-group-item">
+              <div class="row">
+                <div class="col-6">
+                  <p>{{question}}<span class="badge badge-pill badge-dark">Level: {{lev}}</span></p>
+                </div>
+                <div class="col-4">
+                  <p>{{answers}}</p>
+                </div>
+                <div class="col-2">
+                  <p>{{marks}}</p>
+                </div>
+
+              </div>
+            </div>
+
+          {% endfor %}
+        </div>
+      </tbody>
+      </div>
+      <p></p>
+      <p> <strong>Total Marks Obtained:</strong> {{score}}</p>
+      <p> <strong>Total Marks:</strong> {{total_score}}</p>
+      <p> <strong>Percentage Obtained:</strong> {{percentage}}%</p>
+
+{% endblock %}

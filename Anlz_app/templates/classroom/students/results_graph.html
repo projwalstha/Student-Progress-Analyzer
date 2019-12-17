@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Graphical Analysis</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+</head>
+<body>
+  <div class="jumbotron">
+  <h1 class="display-6">GRAPHICAL ANALYSIS</h1>
+    <hr class="my-4">
+  <p class="lead"><b>Name: </b>{{fname}} {{lname}}</p>
+  <p>Total Questions: {{total_ques}}</p>
+  <p>Obtained Marks: {{score}}</p>
+  <p>Total Marks Attempted: {{total_score}}</p>
+  <p>Attempted Test: {{quiz}}</p>
+  <hr class="my-4">
+  <div id="graph1"></div>
+  <script>
+    Highcharts.chart('graph1', {
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Level Adaptation Based on Previous Answers'
+        },
+        xAxis: {
+          tickInterval: 1,
+          floor:  1,
+          softMax: 10,
+          title: {
+              text: 'Questions'
+          },
+
+        },
+        yAxis: {
+          floor:  1,
+          ceiling: 5,
+          softMax: 5,
+
+          title: {
+              text: 'Level'
+          },
+      },
+        series: [{
+            pointStart: 1,
+            name: 'Level ',
+            data: {{answer_questions_lev}}
+
+        }]
+    });
+  </script>
+<hr class="my-4">
+<div id="graph2"></div>
+  <script>
+  Highcharts.chart('graph2', {
+      chart: {
+          type: 'line'
+      },
+      title: {
+          text: 'Total Marks Obtained After Each Questions'
+      },
+      xAxis: {
+        floor:  1,
+        tickInterval: 1,
+        title: {
+            text: 'Questions'
+        },
+
+      },
+      yAxis: {
+        title: {
+            text: 'Marks'
+        },
+    },
+      series: [{
+          pointStart: 1,
+          name: 'Total Marks obtained after attempting this question',
+          data: {{marks_graph}}
+
+      }]
+  });
+  </script>
+  <hr class="my-4">
+  <div id="graph3"></div>
+    <script>
+    Highcharts.chart('graph3', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Achieved Marks on each Questions'
+        },
+        xAxis: {
+          tickInterval: 1,
+          floor:  1,
+          title: {
+              text: 'Questions'
+          },
+
+        },
+        yAxis: {
+
+          title: {
+              text: 'Marks'
+          },
+      },
+        series: [{
+            pointStart: 1,
+            name: 'Marks',
+            data: {{Marks}}
+
+        }]
+    });
+    </script>
+</body>
+</html>

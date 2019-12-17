@@ -1,0 +1,129 @@
+{% extends "base2.html" %}
+
+{% load static %}
+
+
+
+{% block content %}
+    <div class="container">
+        {% if thread %}
+            <div class="page-header">
+                <h1 class="content-title">
+                    <span id="thread-title">{{ thread.title }}</span>
+                    {% if thread.description %}
+                        <br>
+                        <span id="thread-description"><small>{{ thread.description }}</small></span>
+                    {% else %}
+                        <br>
+                        <small><em>No description available.</em></small>
+                    {% endif %}
+                </h1>
+                <div>
+                    <small>Created by: {{ thread.creator }}</small> <br>
+                    <small>Created On: {{ thread.created }}</small>
+                </div>
+                <br>
+                {% if user.is_authenticated %}
+                    <div class="pull-right">
+                        <a href="{% url 'forum:add_post' pk=thread.pk %}" class="pull-right btn btn-primary start-new-btn">New Post</a>
+                    </div>
+                {% endif %}
+
+                </div>
+        {% endif %}
+        <div class="col-xs-12 col-md-10 col-md-offset-1">
+            {% if posts %}
+                {% for post in posts %}
+                <hr>
+              <!--  -->
+
+                            <div class="card border-primary mb-3 p-3 mb-2 bg-light text-dark">
+                              <div class="card-body">
+                                <p class="card-text"><small class="text-muted">By: {{ post.creator }} on <u> {{ post.created }} </u></small></p>
+
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.body }}</p>
+                              </div>
+
+
+<!--  -->
+
+                            <div>
+                                <span>
+                                 <a href="{% url 'forum:comment' pk=post.pk %}" class="btn btn-link">  <button type="button" class="btn btn-primary">Reply</button> </a>
+                                 <button class="btn btn-primary" size= type="button" data-toggle="collapse" data-target="#demo{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">
+                                   View comments
+                                 </button>
+                                </span>
+                            </div>
+
+
+
+
+                            <div class="collapse" id="demo{{ forloop.counter }}">
+                              <div class="card card-body">
+
+                            {% if comments %}
+                                <h4 class="page-header content-title">Comments</h4>
+                                {% for comment in comments %}
+                                    {% if comment.post.pk == post.pk %}
+                                    <div class="card border-secondary mb-3 l-22" style="max-width: 40rem;">
+                                      <div class="card-header text-primary font-weight-bold">{{ comment.creator }}</div>
+                                      <div class="card-body">
+                                      <p class="card-text">{{ comment.body }}</p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+            {% else %}
+                <div class="well well-lg">
+                    <h3>No posts about this yet.</h3>
+                    {% if user.is_authenticated %}
+                        <p>You can post something <a href="{% url 'forum:add_post' pk=thread.pk %}">here.</a></p>
+
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="pull-left" style="clear: both">
+                <a href="{% url 'forum:forum' pk=thread.forum.pk %}">&laquo; Back to thread.</a>
+            </div>
+        </div>
+    </div>
+    {% if posts %}
+        <div class="row" style="clear: both">
+            <span class="step-links">
+                <ul class="pager">
+                    <div class="col-xs-4">
+                        {% if posts.has_previous %}
+                            <li class="previous">
+                                <a href="?page={{ posts.previous_page_number }}">&larr; Newer</a>
+                            </li>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-4">
+                        <li class="active">
+                            <a href="#">{{ posts.number }} / {{ posts.paginator.num_pages }}</a>
+                        </li>
+                    </div>
+                    <div class="col-xs-4">
+                        {% if posts.has_next %}
+                            <li class="next">
+                                <a href="?page={{ posts.next_page_number }}">Older &rarr;</a>
+                            </li>
+                        {% endif %}
+                    </div>
+                </ul>
+            </span>
+          </div>
+
+
+
+    {% endif %}
+
+{% endblock content %}

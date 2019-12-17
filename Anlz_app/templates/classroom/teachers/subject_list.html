@@ -1,0 +1,36 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'teachers:quiz_change_list' %}">My Tests</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'teachers:sub_list'%}">Subjects</a></li>
+
+  </ol>
+</nav>
+  <h2 class="mb-3">Add or delete subjects</h2> <p>Click on any subject to delete it.</p>
+    <a href="{% url 'teachers:sub_add' %}" class="btn btn-primary mb-3" role="button">Add Subject</a>
+  <div class="card">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Subject</th>
+
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sub in subjects.all %}
+          <tr>
+            <td class="align-middle"><a href="{% url 'teachers:sub_del' pk=sub.pk %}">{{ sub.name }}</a></td>
+
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="bg-light text-center font-italic" colspan="5">You haven't created any subjects yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
